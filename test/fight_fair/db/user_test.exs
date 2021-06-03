@@ -3,20 +3,21 @@ defmodule FightFair.Db.UserTest do
   alias FightFair.Db.User
   doctest FightFair.Db.User
 
-  test "a User has a name" do
+  test "a User has a name and email" do
     user = %User{}
     assert user.name == nil
+    assert user.email == nil
   end
 
   describe "changeset" do
     test "name is required" do
-      user = %User{name: nil, email: "email"}
+      user = %{name: nil, email: "email"}
       changeset = User.changeset(user)
       assert changeset.errors == [name: {"can't be blank", [validation: :required]}]
     end
 
     test "email is required" do
-      user = %User{name: "name", email: nil}
+      user = %{name: "name", email: nil}
       changeset = User.changeset(user)
       assert changeset.errors == [email: {"can't be blank", [validation: :required]}]
     end
