@@ -1,5 +1,6 @@
 defmodule FightFair.RepoCase do
   use ExUnit.CaseTemplate
+  import Ecto.Query, only: [from: 2]
 
   using do
     quote do
@@ -23,6 +24,13 @@ defmodule FightFair.RepoCase do
 
   def clean_up_db(_context) do
     FightFair.Repo.delete_all(FightFair.Db.User)
+    FightFair.Repo.delete_all(FightFair.Db.Fight)
+    FightFair.Repo.delete_all(FightFair.Db.Action)
+    # query = from fa in "fight_actions", select: fa.action_id
+    # FightFair.Repo.delete_all(query)
+
+    # query = from fp in "fight_participants", select: fp.user_id
+    # FightFair.Repo.delete_all(query)
     :ok
   end
 

@@ -5,6 +5,7 @@ defmodule FightFair.Db.User do
   schema "user" do
     field(:name, :string)
     field(:email, :string)
+    timestamps()
   end
 
   def changeset(params \\ %{}, user \\ %__MODULE__{}) do

@@ -5,6 +5,7 @@ defmodule FightFair.Repo.Migrations.CreateUser do
     create table(:user) do
       add :name, :string
       add :email, :string
+      timestamps()
     end
   end
 end
