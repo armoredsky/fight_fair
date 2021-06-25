@@ -31,6 +31,40 @@ defmodule FightFair.Db.FightTest do
       assert fight.id >= 1
     end
 
+    test "inserts with no actions" do
+      fight = %{subject: "dude, stop", users: [@owner, @partner], actions: []}
+
+      {:ok, fight} = Fight.insert(fight)
+
+      assert fight.id >= 1
+    end
+
+    test "inserts with no users" do
+      fight = %{subject: "dude, stop", users: [], actions: [@action]}
+
+      {:ok, fight} = Fight.insert(fight)
+
+      assert fight.id >= 1
+    end
+
+    test "inserts with no users or actions" do
+      fight = %{subject: "dude, stop", users: [], actions: []}
+
+      {:ok, fight} = Fight.insert(fight)
+
+      assert fight.id >= 1
+    end
+
+    test "inserts with already defined users" do
+      already_defined_user = Repo.insert!(@owner)
+      fight = %{subject: "dude, stop", users: [already_defined_user], actions: []}
+
+      {:ok, fight} = Fight.insert(fight)
+
+      assert fight.id >= 1
+    end
+
+
     # test "inserting an invalid fight returns the errors" do
     #   owner = Repo.insert!(@owner)
     #   partner = Repo.insert!(@partner)

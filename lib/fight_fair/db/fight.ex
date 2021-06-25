@@ -13,14 +13,26 @@ defmodule FightFair.Db.Fight do
   end
 
   def changeset(params \\ %{}, fight \\ %__MODULE__{}) do
-    user_ids = Enum.map(params.users, fn p -> %{id: p.id} end)
-    action_ids = Enum.map(params.actions, fn a -> %{id: a.id} end)
-
     fight
+    |> Repo.preload([:users, :actions])
     |> Ecto.Changeset.cast(params, [:subject])
-    |> Ecto.Changeset.put_assoc(:users, user_ids)
-    |> Ecto.Changeset.put_assoc(:actions, action_ids)
+    |> Ecto.Changeset.put_assoc(:users, parse_users(params))
+    |> Ecto.Changeset.put_assoc(:actions, parse_actions(params))
     |> Ecto.Changeset.validate_required([:subject])
+  end
+
+  defp parse_users(%{ users: users }) do
+    users
+  end
+  defp parse_users(_params) do
+    []
+  end
+
+  defp parse_actions(%{ actions: actions }) do
+    actions
+  end
+  defp parse_actions(_params) do
+    []
   end
 
   def preload(changeset) do
