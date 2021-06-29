@@ -5,6 +5,7 @@ defmodule FightFair.Db.User do
   schema "user" do
     field(:name, :string)
     field(:email, :string)
+    many_to_many(:fights, FightFair.Db.Fight, join_through: "fight_participants")
     timestamps()
   end
 
@@ -16,5 +17,6 @@ defmodule FightFair.Db.User do
 
   def preload(changeset) do
     changeset
+    |> FightFair.Repo.preload(:fights)
   end
 end

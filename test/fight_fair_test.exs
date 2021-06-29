@@ -15,9 +15,6 @@ defmodule FightFairTest do
     partner = Repo.insert!(@partner)
     subject = "dude, stop"
 
-    IO.inspect(user.id)
-    IO.inspect(partner.id)
-
     fight = FightFair.start_fight(user.id, partner.id, subject)
 
     assert fight.id > 0
