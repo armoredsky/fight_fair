@@ -75,4 +75,14 @@ defmodule FightFair.Db.FightTest do
     #   assert errors == %{subject: ["can't be blank"]}
     # end
   end
+
+  describe "add an action" do
+    test "can add an action to a fight" do
+      fight = %{subject: "dude, stop", users: [@owner, @partner]}
+      {:ok, fight} = Fight.insert(fight)
+
+      act = Fight.add_action(fight, "starting the fight")
+      assert act = %Action{name: "starting the fight"}
+    end
+  end
 end

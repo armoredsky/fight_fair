@@ -35,6 +35,11 @@ defmodule FightFair.Db.Fight do
     []
   end
 
+  def add_action(fight, action_name) do
+    Ecto.build_assoc(fight, :actions, %FightFair.Db.Action{name: action_name})
+    |> Repo.insert!()
+  end
+
   def preload(changeset) do
     changeset
     |> Repo.preload(:users)
