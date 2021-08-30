@@ -21,23 +21,32 @@ defmodule FightFair.Db.Fight do
     |> Ecto.Changeset.validate_required([:subject])
   end
 
-  defp parse_users(%{ users: users }) do
+  def add_action_changeset(fight, action) do
+    fight
+    |> Repo.preload([:users, :actions])
+    |> Ecto.Changeset.cast(%{}, [:subject])
+    |> Ecto.Changeset.put_assoc(:actions, fight.actions ++ [action])
+  end
+
+  defp parse_users(%{users: users}) do
     users
   end
+
   defp parse_users(_params) do
     []
   end
 
-  defp parse_actions(%{ actions: actions }) do
+  defp parse_actions(%{actions: actions}) do
     actions
   end
+
   defp parse_actions(_params) do
     []
   end
 
-  def add_action(fight, action_name) do
-    Ecto.build_assoc(fight, :actions, %FightFair.Db.Action{name: action_name})
-    |> Repo.insert!()
+  def add_action(fight, action) do
+    add_action_changeset(fight, action)
+    |> Repo.update!()
   end
 
   def preload(changeset) do

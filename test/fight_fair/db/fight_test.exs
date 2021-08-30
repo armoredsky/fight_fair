@@ -65,15 +65,15 @@ defmodule FightFair.Db.FightTest do
     end
 
 
-    # test "inserting an invalid fight returns the errors" do
-    #   owner = Repo.insert!(@owner)
-    #   partner = Repo.insert!(@partner)
-    #   fight = %{subject: nil, owner_id: owner.id, partner_id: partner.id}
+    test "inserting an invalid fight returns the errors" do
+      owner = Repo.insert!(@owner)
+      partner = Repo.insert!(@partner)
+      fight = %{subject: nil, owner_id: owner.id, partner_id: partner.id}
 
-    #   {:error, errors} = Fight.insert(fight)
+      {:error, errors} = Fight.insert(fight)
 
-    #   assert errors == %{subject: ["can't be blank"]}
-    # end
+      assert errors == %{subject: ["can't be blank"]}
+    end
   end
 
   describe "add an action" do
@@ -81,8 +81,12 @@ defmodule FightFair.Db.FightTest do
       fight = %{subject: "dude, stop", users: [@owner, @partner]}
       {:ok, fight} = Fight.insert(fight)
 
-      act = Fight.add_action(fight, "starting the fight")
-      assert act = %Action{name: "starting the fight"}
+      {:ok, action} = Action.insert(%{ id: 1, name: "starting the fight" })
+
+      fight = Fight.add_action(fight, action )
+
+      [act] = fight.actions
+      assert act.name ==  "starting the fight"
     end
   end
 end
