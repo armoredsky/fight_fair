@@ -5,7 +5,7 @@ defmodule FightFair.Db.FightTest do
 
   @owner %User{name: "michael", email: "eMMe@gmail.com"}
   @partner %User{name: "lara", email: "l@gmail.com"}
-  @action %Action{name: "started_fight"}
+  @action %Action{name: "started_fight", created_by: @owner}
 
   test "a fight has a subject, owner, and partner" do
     fight = %Fight{}
@@ -81,7 +81,7 @@ defmodule FightFair.Db.FightTest do
       fight = %{subject: "dude, stop", users: [@owner, @partner]}
       {:ok, fight} = Fight.insert(fight)
 
-      {:ok, action} = Action.insert(%{ id: 1, name: "starting the fight" })
+      {:ok, action} = Action.insert(%{ id: 1, name: "starting the fight", created_by: @partner })
 
       fight = Fight.add_action(fight, action )
 

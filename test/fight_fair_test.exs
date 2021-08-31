@@ -20,6 +20,7 @@ defmodule FightFairTest do
 
     [first_act | _t] = fight.actions
     assert first_act.name == @action.name
+    assert first_act.created_by.name == @user.name
   end
 
   test "add a action to a fight" do
@@ -27,14 +28,17 @@ defmodule FightFairTest do
 
     fight =
       start_a_fight()
-      |> FightFair.add_action(new_action)
+      |> FightFair.add_action(@user, new_action)
 
     assert Enum.count(fight.actions) == 2
 
     [first_act | t] = fight.actions
     assert first_act.name == @action.name
+    assert first_act.created_by.name == @user.name
+
     [second_act] = t
     assert second_act.name == new_action
+    assert second_act.created_by.name == @user.name
   end
 
   defp start_a_fight do
