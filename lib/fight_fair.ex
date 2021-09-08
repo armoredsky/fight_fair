@@ -20,7 +20,10 @@ defmodule FightFair do
     fight
   end
 
-  def add_action(fight, user, action_name) do
+  def add_action(user_id, fight_id, action_name) do
+    user = User.get_by_id(user_id)
+    fight = Fight.get_by_id(fight_id)
+
     {:ok, action} = Action.insert(%{name: action_name, created_by: user})
     Fight.add_action(fight, action)
   end

@@ -26,9 +26,10 @@ defmodule FightFairTest do
   test "add a action to a fight" do
     new_action = "Timeout: 5mins"
 
-    fight =
-      start_a_fight()
-      |> FightFair.add_action(@user, new_action)
+    fight = start_a_fight()
+    [user, _] = fight.users
+
+    fight = FightFair.add_action(user.id, fight.id, new_action)
 
     assert Enum.count(fight.actions) == 2
 

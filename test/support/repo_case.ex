@@ -29,9 +29,10 @@ defmodule FightFair.RepoCase do
     query = from fp in "fight_participants", select: fp.user_id
     FightFair.Repo.delete_all(query)
 
-    FightFair.Repo.delete_all(FightFair.Db.User)
-    FightFair.Repo.delete_all(FightFair.Db.Fight)
     FightFair.Repo.delete_all(FightFair.Db.Action)
+    FightFair.Repo.delete_all(FightFair.Db.Fight)
+    FightFair.Repo.delete_all(FightFair.Db.User)
+
     :ok
   end
 

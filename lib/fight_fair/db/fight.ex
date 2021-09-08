@@ -53,5 +53,6 @@ defmodule FightFair.Db.Fight do
     changeset
     |> Repo.preload(:users)
     |> Repo.preload(:actions)
+    |> Repo.preload(actions: :created_by)
   end
 end
