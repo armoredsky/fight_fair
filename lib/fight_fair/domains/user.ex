@@ -14,7 +14,6 @@ defmodule FightFair.User do
     {:ok, user}
   end
 
-  def new(_) do
-    {:error, :missing_required_arguments}
-  end
+  def new(), do: {:error, :missing_required_arguments}
+  def new(_), do: {:error, :missing_required_arguments}
 end

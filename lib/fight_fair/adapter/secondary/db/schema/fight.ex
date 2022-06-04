@@ -3,6 +3,7 @@ defmodule FightFair.Db.Fight do
   use Ecto.Schema
 
   alias FightFair.Repo
+  alias FightFair.Fight, as: FightDomain
 
   schema "fight" do
     field(:subject, :string)
@@ -54,5 +55,12 @@ defmodule FightFair.Db.Fight do
     |> Repo.preload(:users)
     |> Repo.preload(:actions)
     |> Repo.preload(actions: :created_by)
+  end
+
+
+  def to_domain(%__MODULE__{} = schema) do
+    attrs = Map.from_struct(schema)
+    # do i need more logic here? probably
+    struct(%FightDomain{}, attrs)
   end
 end

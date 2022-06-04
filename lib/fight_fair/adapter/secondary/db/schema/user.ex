@@ -2,6 +2,8 @@ defmodule FightFair.Db.User do
   use FightFair.Db.Util
   use Ecto.Schema
 
+  alias FightFair.User, as: UserDomain
+
   schema "user" do
     field(:name, :string)
     field(:email, :string)
@@ -18,5 +20,11 @@ defmodule FightFair.Db.User do
   def preload(changeset) do
     changeset
     |> FightFair.Repo.preload(:fights)
+  end
+
+  def to_domain(%__MODULE__{} = schema) do
+    attrs = Map.from_struct(schema)
+    # do i need more logic here? probably
+    struct(%UserDomain{}, attrs)
   end
 end

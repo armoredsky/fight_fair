@@ -23,7 +23,6 @@ defmodule FightFair.Action do
      }}
   end
 
-  def new(_) do
-    {:error, :invalid_arguments}
-  end
+  def new(), do: {:error, :missing_required_arguments}
+  def new(_), do: {:error, :missing_required_arguments}
 end
