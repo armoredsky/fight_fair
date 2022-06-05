@@ -18,7 +18,7 @@ defmodule FightFair.ActionTest do
 
     test "invalid new Action" do
       assert {:error, :missing_required_arguments} = Action.new()
-      assert {:error, :missing_required_arguments} = Action.new("name")
+      assert {:error, :missing_required_arguments} = Action.new(:timeout)
 
       assert {:error, :unknown_action_name} = Action.new(:do_a_little_dance, 1)
     end

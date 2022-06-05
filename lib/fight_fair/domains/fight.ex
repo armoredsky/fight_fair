@@ -9,10 +9,11 @@ defmodule FightFair.Fight do
     user_ids: [],
     actions: []
   )
-
+  @type id :: integer()
+  @type subject :: String.t()
   @type t :: %__MODULE__{
-          id: integer() | nil,
-          subject: String.t(),
+          id: __MODULE__.id() | nil,
+          subject: __MODULE__.subject(),
           start_date: Date.t(),
           end_date: Date.t(),
           user_ids: list(User.id()),
