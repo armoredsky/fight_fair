@@ -1,4 +1,4 @@
-defmodule FightFair.UserBehaviour do
+defmodule FightFair.UserRepoBehaviour do
   alias FightFair.User
 
   @callback get(User.id()) :: {:ok, User.t()} | {:error, any()}

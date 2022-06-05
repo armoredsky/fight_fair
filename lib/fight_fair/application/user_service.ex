@@ -1,6 +1,4 @@
 defmodule FightFair.Application.UserService do
-  # alias FightFair.User
-
   @user_repo Application.compile_env(:fight_fair, :user_repo)
 
   # not something i reallly want, but you know
@@ -13,4 +11,6 @@ defmodule FightFair.Application.UserService do
     {:ok, user} = @user_repo.get(user_id)
     user
   end
+
+  # get partners/ maybe make that part of the user in the first place?
 end

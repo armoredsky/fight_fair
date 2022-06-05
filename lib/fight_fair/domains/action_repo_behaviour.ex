@@ -1,4 +1,4 @@
-defmodule FightFair.ActionBehaviour do
+defmodule FightFair.ActionRepoBehaviour do
   @doc """
   create a new Action
   """

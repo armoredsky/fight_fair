@@ -1,5 +1,5 @@
 defmodule FightFair.Adapter.ActionRepo do
-  @behaviour FightFair.ActionBehaviour
+  @behaviour FightFair.ActionRepoBehaviour
 
   alias FightFair.Repo
   alias FightFair.Action, as: ActionDomain

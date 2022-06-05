@@ -1,5 +1,5 @@
 defmodule FightFair.Adapter.UserRepo do
-  @behaviour FightFair.UserBehaviour
+  @behaviour FightFair.UserRepoBehaviour
 
   alias FightFair.Repo
   alias FightFair.User, as: UserDomain
