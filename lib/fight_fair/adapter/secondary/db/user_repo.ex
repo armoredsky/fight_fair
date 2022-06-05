@@ -2,9 +2,15 @@ defmodule FightFair.Adapter.UserRepo do
   @behaviour FightFair.UserBehaviour
 
   alias FightFair.Repo
-
   alias FightFair.User, as: UserDomain
   alias FightFair.Db.User, as: UserSchema
+
+  # @impl true
+  def get_all() do
+    UserSchema
+    |> Repo.all()
+    |> Enum.map(&UserSchema.to_domain(&1))
+  end
 
   @impl true
   def get(user_id) do

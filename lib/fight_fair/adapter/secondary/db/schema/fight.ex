@@ -1,6 +1,7 @@
 defmodule FightFair.Db.Fight do
   use FightFair.Db.Util
   use Ecto.Schema
+  import Ecto.Changeset
 
   alias FightFair.Repo
   alias FightFair.Fight, as: FightDomain
@@ -11,6 +12,22 @@ defmodule FightFair.Db.Fight do
     many_to_many(:actions, FightFair.Db.Action, join_through: "fight_actions")
 
     timestamps()
+  end
+
+  def insert_changeset(%FightDomain{} = fight_domain) do
+    attrs = Map.from_struct(fight_domain)
+
+    %__MODULE__{}
+    |> cast(attrs, [:subject])
+    |> validate_required([:subject])
+  end
+
+  def update_changeset(schema, %FightDomain{} = fight_domain) do
+    attrs = Map.from_struct(fight_domain)
+
+    schema
+    |> cast(attrs, [:subject])
+    |> validate_required([:subject])
   end
 
   def changeset(params \\ %{}, fight \\ %__MODULE__{}) do

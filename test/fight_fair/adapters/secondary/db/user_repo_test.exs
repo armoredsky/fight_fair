@@ -17,7 +17,6 @@ defmodule FightFair.Adapter.UserRepoTest do
         name: ^name,
         email: ^email,
       }} = UserRepo.insert(user)
-
     end
 
     test "inserting User without a name fails test" do
