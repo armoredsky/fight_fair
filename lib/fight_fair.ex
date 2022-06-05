@@ -8,7 +8,7 @@ defmodule FightFair do
   def start_fight(user_id, partner_id, subject) do
     user = User.get_by_id(user_id)
     partner = User.get_by_id(partner_id)
-    actions = %Action{name: "started", created_by: user}
+    actions = %Action{name: :start_fight, created_by: user}
 
     {:ok, fight} =
       Fight.insert(%{

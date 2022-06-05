@@ -1,7 +1,6 @@
 defmodule FightFair.Adapter.FightRepoTest do
   use FightFair.RepoCase
   alias FightFair.Adapter.FightRepo
-  alias FightFair.Db.Fight, as: FightSchema
   alias FightFair.Fight, as: FightDomain
   doctest FightFair.Adapter.FightRepo
 

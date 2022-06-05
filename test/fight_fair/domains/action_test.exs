@@ -14,6 +14,8 @@ defmodule FightFair.ActionTest do
                 created_at: datetime
               }}
               = Action.new(name, user_id)
+
+      refute datetime == nil
     end
 
     test "invalid new Action" do

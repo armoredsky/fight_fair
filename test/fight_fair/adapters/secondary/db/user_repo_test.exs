@@ -1,7 +1,6 @@
 defmodule FightFair.Adapter.UserRepoTest do
   use FightFair.RepoCase
   alias FightFair.Adapter.UserRepo
-  alias FightFair.Db.User, as: UserSchema
   alias FightFair.User, as: UserDomain
   doctest FightFair.Adapter.UserRepo
 

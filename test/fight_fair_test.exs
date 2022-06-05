@@ -7,7 +7,7 @@ defmodule FightFairTest do
 
   @user %User{name: "michael", email: "eMMe@gmail.com"}
   @partner %User{name: "lara", email: "l@gmail.com"}
-  @action %Action{name: "started"}
+  @action %Action{name: :start_fight}
 
   test "start a fight" do
     user = Repo.insert!(@user)
@@ -24,7 +24,7 @@ defmodule FightFairTest do
   end
 
   test "add a action to a fight" do
-    new_action = "Timeout: 5mins"
+    new_action = :timeout
 
     fight = start_a_fight()
     [user, _] = fight.users

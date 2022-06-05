@@ -1,8 +1,6 @@
 defmodule FightFair.Adapter.FightRepo do
   @behaviour FightFair.FightBehaviour
 
-  import Ecto.Query
-
   alias FightFair.Repo
   alias FightFair.Fight, as: FightDomain
   alias FightFair.Db.Fight, as: FightSchema
@@ -16,7 +14,7 @@ defmodule FightFair.Adapter.FightRepo do
 
   def get(fight_id) do
     case Repo.get(FightSchema, fight_id) do
-      %FightSchema{} = fight_schema -> {:ok, fight_schema}
+      %FightSchema{} = schema -> {:ok, FightSchema.to_domain(schema)}
       _ -> {:error, :not_found}
     end
   end
