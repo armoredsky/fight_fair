@@ -8,10 +8,11 @@ defmodule FightFair.Adapter.FightRepo do
 
   @impl true
   def get_all(_user_id) do
-    FightSchema
+    fights = FightSchema
     # get all where user_id matches
     |> Repo.all()
     |> Enum.map(&FightSchema.to_domain(&1))
+    {:ok, fights}
   end
 
   @impl true
