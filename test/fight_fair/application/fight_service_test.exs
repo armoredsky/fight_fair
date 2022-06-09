@@ -41,10 +41,4 @@ defmodule FightFair.Application.FightServiceTest do
       assert {:ok, %FightDomain{}} = FightService.get(fight_id)
     end
   end
-
-  describe "add_action" do
-    test "add_action" do
-      assert 1 == 2
-    end
-  end
 end

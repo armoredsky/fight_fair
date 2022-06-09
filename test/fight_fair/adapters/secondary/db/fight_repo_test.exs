@@ -32,24 +32,4 @@ defmodule FightFair.Adapter.FightRepoTest do
       assert fetched_fight.subject == fight.subject
     end
   end
-
-  describe "get_all" do
-    test "fights for a given user_id" do
-      assert 1 == 2
-    end
-  end
-
-  describe "add_action" do
-    test "to a fight with a proper action name and user_id" do
-      assert 1 == 2
-    end
-
-    test "with improper action name fails test" do
-      assert 1 == 2
-    end
-
-    test "with uninvited user fails test" do
-      assert 1 == 2
-    end
-  end
 end
