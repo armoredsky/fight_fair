@@ -1,5 +1,4 @@
 defmodule FightFair.Db.Action do
-  use FightFair.Db.Util
   use Ecto.Schema
 
   import Ecto.Changeset
@@ -31,22 +30,8 @@ defmodule FightFair.Db.Action do
     |> validate_required([:name])
   end
 
-  def changeset(params \\ %{}, action \\ %__MODULE__{}) do
-    action
-    |> cast(params, [:name])
-    |> put_assoc(:created_by, params.created_by)
-    |> validate_required([:name])
-  end
-
-  def preload(changeset) do
-    changeset
-    |> Repo.preload(:created_by)
-  end
-
-
   def to_domain(%__MODULE__{} = schema) do
     attrs = Map.from_struct(schema)
-
     # do i need more logic here? probably
     struct(%ActionDomain{}, attrs)
   end

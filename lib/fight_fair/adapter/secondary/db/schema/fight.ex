@@ -1,5 +1,4 @@
 defmodule FightFair.Db.Fight do
-  use FightFair.Db.Util
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -30,15 +29,6 @@ defmodule FightFair.Db.Fight do
     |> validate_required([:subject])
   end
 
-  def changeset(params \\ %{}, fight \\ %__MODULE__{}) do
-    fight
-    |> Repo.preload([:users, :actions])
-    |> Ecto.Changeset.cast(params, [:subject])
-    |> Ecto.Changeset.put_assoc(:users, parse_users(params))
-    |> Ecto.Changeset.put_assoc(:actions, parse_actions(params))
-    |> Ecto.Changeset.validate_required([:subject])
-  end
-
   def add_action_changeset(fight, action) do
     fight
     |> Repo.preload([:users, :actions])
@@ -46,38 +36,15 @@ defmodule FightFair.Db.Fight do
     |> Ecto.Changeset.put_assoc(:actions, fight.actions ++ [action])
   end
 
-  defp parse_users(%{users: users}) do
-    users
-  end
-
-  defp parse_users(_params) do
-    []
-  end
-
-  defp parse_actions(%{actions: actions}) do
-    actions
-  end
-
-  defp parse_actions(_params) do
-    []
-  end
-
   def add_action(fight, action) do
     add_action_changeset(fight, action)
     |> Repo.update!()
   end
 
-  def preload(changeset) do
-    changeset
-    |> Repo.preload(:users)
-    |> Repo.preload(:actions)
-    |> Repo.preload(actions: :created_by)
-  end
-
-
   def to_domain(%__MODULE__{} = schema) do
     attrs = Map.from_struct(schema)
-    # do i need more logic here? probably
+    # do i need more logic here?
+    # todo: to_domain on the other schemas as well. Map.from_struct only works at the top level
     struct(%FightDomain{}, attrs)
   end
 end
