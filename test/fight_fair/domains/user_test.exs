@@ -12,14 +12,13 @@ defmodule FightFair.UserTest do
                 id: nil,
                 name: ^name,
                 email: ^email,
-                fight_ids: []
               }}
               = User.new(name, email)
     end
 
     test "invalid new user" do
-      assert {:error, :missing_required_arguments} = User.new()
-      assert {:error, :missing_required_arguments} = User.new("name")
+      assert {:error, :invalid_arguments} = User.new(1, "email")
+      assert {:error, :invalid_arguments} = User.new("name", 1)
     end
   end
 end
