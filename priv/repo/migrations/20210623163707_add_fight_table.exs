@@ -9,18 +9,16 @@ defmodule FightFair.Repo.Migrations.AddFightTable do
 
     create table(:action) do
       add :name, :string
-      add :created_by_id, references(:user)
+      add :created_by, references(:user)
+      add :fight_id, references(:fight)
       timestamps()
     end
 
-    create table(:fight_participants, primary_key: false) do
+    create table(:fight_participants) do
       add :fight_id, references(:fight)
       add :user_id, references(:user)
     end
 
-    create table(:fight_actions, primary_key: false) do
-      add :fight_id, references(:fight)
-      add :action_id, references(:action)
-    end
+    create unique_index(:fight_participants, [:fight_id, :user_id])
   end
 end

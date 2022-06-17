@@ -33,7 +33,7 @@ defmodule FightFair.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:ecto_sql, "~> 3.0"},
+      {:ecto_sql, "~> 3.8.3"},
       {:postgrex, ">= 0.0.0"},
       {:mix_test_watch, "~> 1.0", only: :dev, runtime: false}
     ]

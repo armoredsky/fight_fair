@@ -4,29 +4,34 @@ defmodule FightFair.Adapter.FightRepo do
   alias FightFair.Repo
   alias FightFair.Action, as: ActionDomain
   alias FightFair.Fight, as: FightDomain
-  alias FightFair.Db.Fight, as: FightSchema
+  alias FightFair.Db.{Action, Fight}
 
   @impl true
   def get_all(_user_id) do
-    fights = FightSchema
-    # get all where user_id matches
-    |> Repo.all()
-    |> Enum.map(&FightSchema.to_domain(&1))
+    fights =
+      Fight
+      # get all where user_id matches
+      |> Repo.all()
+      |> Enum.map(&Fight.to_domain(&1))
+
     {:ok, fights}
   end
 
   @impl true
   def get(fight_id) do
-    case Repo.get(FightSchema, fight_id) do
-      %FightSchema{} = schema -> {:ok, FightSchema.to_domain(schema)}
+    case Repo.get(Fight, fight_id) do
+      %Fight{} = schema -> {:ok, Fight.to_domain(schema)}
       _ -> {:error, :not_found}
     end
   end
 
   @impl true
   def insert(%FightDomain{} = fight) do
-    with {:ok, schema} <- FightSchema.insert_changeset(fight) |> Repo.insert() do
-      {:ok, FightSchema.to_domain(schema)}
+    with {:ok, fight_schema} <- Fight.insert_changeset(fight) |> do_insert,
+      {:ok, fight_schema}     <- Ecto.build_assoc(fight_schema, :users, fight.users) |> do_insert,
+    fight_schema <- Repo.preload(fight_schema, :users) do
+      Repo.all(FightFair.Db.User)
+      {:ok, Fight.to_domain(fight_schema)}
     end
   end
 
@@ -34,4 +39,23 @@ defmodule FightFair.Adapter.FightRepo do
   def add_action(%FightDomain{} = fight, %ActionDomain{} = action, user_id) do
     # how to update a fight
   end
+
+  def do_insert(changeset) do
+    IO.inspect(changeset, label: "before insert")
+    case Repo.insert(changeset) do
+      {:ok, changeset} ->
+        IO.inspect(changeset)
+        {:ok, changeset}
+
+      {:error, changeset} ->
+        IO.inspect(changeset, label: "done fucked up")
+        {:error, changeset}
+    end
+  end
 end
+
+# create a fight
+# add users to fight
+# add actions to fight
+# get fight
+# return

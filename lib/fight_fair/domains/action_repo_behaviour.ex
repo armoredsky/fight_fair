@@ -2,5 +2,5 @@ defmodule FightFair.ActionRepoBehaviour do
   @doc """
   create a new Action
   """
-  @callback new(Action.name(), User.id()) :: {:ok, Action.t()} | {:error, any()}
+  @callback insert(Action.t()) :: {:ok, Action.t()} | {:error, any()}
 end

@@ -1,4 +1,4 @@
-defmodule FightFair.Adapter.Db.AtomType do
+defmodule FightFair.Db.AtomType do
   @moduledoc false
   use Ecto.Type
   def type, do: :string

@@ -1,6 +1,6 @@
 defmodule FightFair.Action do
   alias FightFair.User
-  defstruct(id: nil, name: nil, created_by: nil, created_at: nil)
+  defstruct(id: nil, name: nil, fight: nil, created_by: nil, created_at: nil)
 
   @action_names [:start_fight, :end_fight, :timeout, :foul, :out_of_bounds]
 
@@ -9,8 +9,9 @@ defmodule FightFair.Action do
   @type t :: %__MODULE__{
           id: __MODULE__.id() | nil,
           name: __MODULE__.name(),
+          fight: Fight.t(),
           created_by: User.t(),
-          created_at: DateTime.t()
+          created_at: DateTime.t(),
         }
 
   def new(action_name, %User{} = created_by) when action_name in @action_names do

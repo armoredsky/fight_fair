@@ -19,6 +19,7 @@ defmodule FightFair.Adapter.ActionRepo do
     end
   end
 
+  @impl true
   def insert(%ActionDomain{} = action) do
     with {:ok, schema} <- ActionSchema.insert_changeset(action) |> Repo.insert() do
       {:ok, ActionSchema.to_domain(schema)}

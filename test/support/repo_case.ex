@@ -23,9 +23,6 @@ defmodule FightFair.RepoCase do
   end
 
   def clean_up_db(_context) do
-    query = from fa in "fight_actions", select: fa.action_id
-    FightFair.Repo.delete_all(query)
-
     query = from fp in "fight_participants", select: fp.user_id
     FightFair.Repo.delete_all(query)
 

@@ -7,5 +7,7 @@ defmodule FightFair.Repo.Migrations.CreateUser do
       add :email, :string
       timestamps()
     end
+
+    create unique_index(:user, [:email])
   end
 end
