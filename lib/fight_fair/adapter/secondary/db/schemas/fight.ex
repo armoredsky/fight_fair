@@ -17,13 +17,12 @@ defmodule FightFair.Db.Fight do
 
     %__MODULE__{}
     |> cast(attrs, [:subject])
+    |> validate_required([:subject])
     |> put_assoc(:users, parse_users(attrs.users))
   end
 
   def parse_users(users) do
-    Enum.map(users, fn u ->
-      FightFair.Repo.get_by(User, email: u.email)
-    end)
+    Enum.map(users, fn u -> User.get_or_insert(u) end)
   end
 
   def to_domain(%__MODULE__{} = schema) do

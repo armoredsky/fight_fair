@@ -28,28 +28,21 @@ defmodule FightFair.Adapter.FightRepo do
   @impl true
   def insert(%FightDomain{} = fight) do
     with {:ok, fight_schema} <- Fight.insert_changeset(fight) |> do_insert,
-      {:ok, fight_schema}     <- Ecto.build_assoc(fight_schema, :users, fight.users) |> do_insert,
-    fight_schema <- Repo.preload(fight_schema, :users) do
+         fight_schema <- Repo.preload(fight_schema, :users) do
       Repo.all(FightFair.Db.User)
       {:ok, Fight.to_domain(fight_schema)}
     end
   end
 
-  @impl true
-  def add_action(%FightDomain{} = fight, %ActionDomain{} = action, user_id) do
-    # how to update a fight
-  end
+  # @impl true
+  # def add_action(%FightDomain{} = fight, %ActionDomain{} = action, user_id) do
+  #   # how to update a fight
+  # end
 
   def do_insert(changeset) do
-    IO.inspect(changeset, label: "before insert")
     case Repo.insert(changeset) do
-      {:ok, changeset} ->
-        IO.inspect(changeset)
-        {:ok, changeset}
-
-      {:error, changeset} ->
-        IO.inspect(changeset, label: "done fucked up")
-        {:error, changeset}
+      {:ok, changeset} -> {:ok, changeset}
+      {:error, changeset} -> {:error, changeset}
     end
   end
 end

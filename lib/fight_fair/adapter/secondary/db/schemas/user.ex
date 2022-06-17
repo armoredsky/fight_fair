@@ -2,6 +2,7 @@ defmodule FightFair.Db.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias FightFair.Repo
   alias FightFair.User, as: UserDomain
   alias FightFair.Db.{Fight, FightParticipants}
 
@@ -20,7 +21,6 @@ defmodule FightFair.Db.User do
     |> cast(attrs, [:name, :email])
     |> validate_required([:name, :email])
     |> unique_constraint(:email)
-    |> IO.inspect(label: "user domain in changeset/2")
   end
 
   def insert_changeset(%UserDomain{} = user_domain) do
@@ -30,6 +30,13 @@ defmodule FightFair.Db.User do
     |> cast(attrs, [:name, :email])
     |> validate_required([:name, :email])
     |> unique_constraint(:email)
+  end
+
+  def get_or_insert(%UserDomain{email: email} = user_domain) do
+    case Repo.get_by(__MODULE__, email: email) do
+      nil -> Repo.insert!(insert_changeset(user_domain))
+      user -> user
+    end
   end
 
   def to_domain(%__MODULE__{} = schema) do

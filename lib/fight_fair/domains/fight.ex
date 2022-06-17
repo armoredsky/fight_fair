@@ -9,6 +9,7 @@ defmodule FightFair.Fight do
     users: [],
     actions: []
   )
+
   @type id :: integer()
   @type subject :: String.t()
   @type t :: %__MODULE__{
@@ -20,9 +21,19 @@ defmodule FightFair.Fight do
           actions: list(Action.t())
         }
 
+  def new(subject, %User{} = created_by, %User{} = partner)
+      when is_binary(subject) do
+    fight = %__MODULE__{
+      subject: subject,
+      users: [created_by, partner],
+      start_date: DateTime.utc_now()
+    }
+
+    add_action(fight, :start_fight, created_by)
+  end
+
   def new(subject, %User{} = created_by)
       when is_binary(subject) do
-
     fight = %__MODULE__{
       subject: subject,
       users: [created_by],
@@ -31,10 +42,10 @@ defmodule FightFair.Fight do
 
     add_action(fight, :start_fight, created_by)
   end
-  def new(_,_), do: {:error, :invalid_arguments}
+
+  def new(_, _), do: {:error, :invalid_arguments}
 
   def add_action(fight, action_name, created_by) do
-
     if Enum.member?(fight.users, created_by) do
       case Action.new(action_name, created_by) do
         {:ok, action} ->

@@ -22,14 +22,14 @@ defmodule FightFair.Adapter.FightRepoTest do
     end
   end
 
-  describe "get" do
-    test "a fight" do
-      {:ok, fight} = FightRepo.insert(%FightDomain{subject: "a"})
+  # describe "get" do
+  #   test "a fight" do
+  #     {:ok, fight} = FightRepo.insert(%FightDomain{subject: "a"})
 
-      assert {:ok, fetched_fight} = FightRepo.get(fight.id)
+  #     assert {:ok, fetched_fight} = FightRepo.get(fight.id)
 
-      assert fetched_fight.id == fight.id
-      assert fetched_fight.subject == fight.subject
-    end
-  end
+  #     assert fetched_fight.id == fight.id
+  #     assert fetched_fight.subject == fight.subject
+  #   end
+  # end
 end
