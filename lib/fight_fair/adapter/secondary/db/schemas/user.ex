@@ -8,7 +8,7 @@ defmodule FightFair.Db.User do
   schema "user" do
     field(:name, :string)
     field(:email, :string)
-    many_to_many(:fights, Fight, join_through: FightParticipants, on_delete: :nothing, on_replace: :delete)
+    many_to_many(:fights, Fight, join_through: FightParticipants, on_replace: :delete)
     # has_many(:actions, Action)
     timestamps()
   end
