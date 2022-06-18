@@ -4,12 +4,12 @@ defmodule FightFair.Db.User do
 
   alias FightFair.Repo
   alias FightFair.User, as: UserDomain
-  alias FightFair.Db.{Fight, FightParticipants}
+  alias FightFair.Db.Fight
 
   schema "user" do
     field(:name, :string)
     field(:email, :string)
-    many_to_many(:fights, Fight, join_through: FightParticipants, on_replace: :delete)
+    many_to_many(:fights, Fight, join_through: "fight_participants", on_replace: :delete)
     # has_many(:actions, Action)
     timestamps()
   end

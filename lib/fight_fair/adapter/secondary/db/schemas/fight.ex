@@ -3,12 +3,12 @@ defmodule FightFair.Db.Fight do
   import Ecto.Changeset
 
   alias FightFair.Fight, as: FightDomain
-  alias FightFair.Db.{User, FightParticipants}
+  alias FightFair.Db.{Action, User}
 
   schema "fight" do
     field(:subject, :string)
-    many_to_many(:users, User, join_through: FightParticipants, on_replace: :delete)
-    # has_many(:actions, Action)
+    many_to_many(:users, User, join_through: "fight_participants", on_replace: :delete)
+    has_many(:actions, Action)
     timestamps()
   end
 

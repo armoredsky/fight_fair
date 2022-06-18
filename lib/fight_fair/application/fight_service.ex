@@ -11,16 +11,16 @@ defmodule FightFair.Application.FightService do
     @fight_repo.get(fight_id)
   end
 
-  def start_fight(subject, user_id) do
+  def start_fight(subject, user_id, partner_id) do
     with {:ok, user} <- @user_repo.get(user_id),
-         {:ok, fight} <- Fight.new(subject, user),
+         {:ok, partner} <- @user_repo.get(partner_id),
+         {:ok, fight} <- Fight.new(subject, user, partner),
          {:ok, fight} <- @fight_repo.insert(fight) do
       {:ok, fight}
     end
   end
 
   def add_action(fight_id, action_name, user_id) do
-    IO.inspect(user_id, label: "what did i send? ")
     with {:ok, fight} <- @fight_repo.get(fight_id),
          {:ok, action} <- Action.new(action_name, user_id),
          {:ok, fight} <- @fight_repo.add_action(fight, action, user_id) do
