@@ -32,7 +32,14 @@ defmodule FightFair.Db.User do
     |> unique_constraint(:email)
   end
 
-  def get_or_insert(%UserDomain{email: email} = user_domain) do
+  def get_or_insert(%UserDomain{ id: id} = user_domain) when is_integer(id) do
+    case Repo.get_by(__MODULE__, id: id) do
+      nil -> Repo.insert!(insert_changeset(user_domain))
+      user -> user
+    end
+  end
+
+  def get_or_insert(%UserDomain{ email: email} = user_domain) do
     case Repo.get_by(__MODULE__, email: email) do
       nil -> Repo.insert!(insert_changeset(user_domain))
       user -> user

@@ -1,38 +1,32 @@
 defmodule FightFair.Adapter.ActionRepoTest do
   use FightFair.RepoCase
-  alias FightFair.Adapter.ActionRepo
+  alias FightFair.Adapter.{ActionRepo, FightRepo, UserRepo}
   alias FightFair.Action, as: ActionDomain
+  alias FightFair.Fight, as: FightDomain
+  alias FightFair.User, as: UserDomain
   doctest FightFair.Adapter.ActionRepo
 
-  # describe "insert" do
-  #   test "an action returns an action with id" do
-  #     name = :start_fight
-  #     action = %ActionDomain{name: name}
+  @user %UserDomain{name: "michael", email: "m@gmail.com"}
+  @partner %UserDomain{name: "lara", email: "l@gmail.com"}
+  @subject "ain't gona take it"
 
-  #     assert {:ok, %ActionDomain{
-  #       id: id,
-  #       name: ^name,
-  #     }} = ActionRepo.insert(action)
+  describe "insert" do
+    test "an action returns an action with id" do
+      assert {:ok, user} = UserRepo.insert(@user)
+      assert {:ok, partner} = UserRepo.insert(@partner)
+      assert {:ok, fight} = FightDomain.new(@subject, user, partner)
+      assert {:ok, fight} = FightRepo.insert(fight)
 
-  #     refute id == nil
-  #   end
+      name = :start_fight
+      {:ok, action} = ActionDomain.new(name, user.id, fight.id)
 
-  #   test "an action without a name fails test" do
-  #     action = %ActionDomain{name: ""}
-  #     assert {:error, %Ecto.Changeset{}} = ActionRepo.insert(action)
-  #   end
-  # end
+      assert {:ok,
+              %ActionDomain{
+                id: id,
+                name: ^name
+              }} = ActionRepo.insert(action)
 
-  # describe "get" do
-  #   test "an action" do
-  #     {:ok, action} = ActionRepo.insert(%ActionDomain{name: :timeout})
-
-  #     assert {:ok, fetched_action } = ActionRepo.get(action.id)
-
-  #     assert fetched_action.id == action.id
-  #     assert fetched_action.name == action.name
-  #   end
-
-  #   # some failure test would be nice
-  # end
+      refute id == nil
+    end
+  end
 end

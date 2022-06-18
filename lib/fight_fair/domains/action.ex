@@ -21,8 +21,9 @@ defmodule FightFair.Action do
           created_at: DateTime.t()
         }
 
+  # this might be weird way of doing it
   def new(action_name, created_by_id, fight_id)
-      when action_name in @action_names and is_binary(created_by_id) and is_binary(fight_id) do
+      when action_name in @action_names and is_integer(created_by_id) and is_integer(fight_id) do
     {:ok,
      %__MODULE__{
        name: action_name,

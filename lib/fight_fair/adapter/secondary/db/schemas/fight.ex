@@ -3,6 +3,7 @@ defmodule FightFair.Db.Fight do
   import Ecto.Changeset
 
   alias FightFair.Fight, as: FightDomain
+  alias FightFair.Repo
   alias FightFair.Db.{Action, User}
 
   schema "fight" do
@@ -23,6 +24,10 @@ defmodule FightFair.Db.Fight do
 
   def parse_users(users) do
     Enum.map(users, fn u -> User.get_or_insert(u) end)
+  end
+
+  def get(%{id: id}) when is_integer(id) do
+    Repo.get!(__MODULE__, id)
   end
 
   def to_domain(%__MODULE__{} = schema) do

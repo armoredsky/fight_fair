@@ -18,7 +18,8 @@ defmodule FightFair.Db.Action do
 
     %__MODULE__{}
     |> cast(attrs, [:name])
-    |> cast_assoc(:created_by, attrs.created_by)
+    |> put_assoc(:created_by, User.get_or_insert(attrs.created_by))
+    |> put_assoc(:fight, Fight.get(attrs.fight))
     |> validate_required([:name])
   end
 

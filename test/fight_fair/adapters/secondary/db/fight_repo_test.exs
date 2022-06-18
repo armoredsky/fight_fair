@@ -14,6 +14,8 @@ defmodule FightFair.Adapter.FightRepoTest do
                 id: id,
                 subject: ^subject
               }} = FightRepo.insert(fight)
+
+      refute id == nil
     end
 
     test "inserting fight without a subject fails test" do

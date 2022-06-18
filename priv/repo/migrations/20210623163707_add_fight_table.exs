@@ -9,7 +9,7 @@ defmodule FightFair.Repo.Migrations.AddFightTable do
 
     create table(:action) do
       add :name, :string
-      add :created_by, references(:user)
+      add :created_by_id, references(:user)
       add :fight_id, references(:fight)
       timestamps()
     end
