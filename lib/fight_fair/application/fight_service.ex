@@ -1,4 +1,5 @@
 defmodule FightFair.Application.FightService do
+  @action_repo Application.compile_env(:fight_fair, :action_repo)
   @fight_repo Application.compile_env(:fight_fair, :fight_repo)
   @user_repo Application.compile_env(:fight_fair, :user_repo)
   alias FightFair.{Action, Fight}

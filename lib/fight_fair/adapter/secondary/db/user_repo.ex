@@ -26,12 +26,4 @@ defmodule FightFair.Adapter.UserRepo do
       {:ok, UserSchema.to_domain(schema)}
     end
   end
-
-  @impl true
-  def update(%UserDomain{id: user_id} = user) do
-    with {:ok, schema} <- get(user_id),
-         {:ok, schema} <- UserSchema.update_changeset(schema, user) |> Repo.update() do
-      {:ok, UserSchema.to_domain(schema)}
-    end
-  end
 end

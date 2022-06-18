@@ -36,9 +36,3 @@ defmodule FightFair.Adapter.FightRepo do
     end
   end
 end
-
-# create a fight
-# add users to fight
-# add actions to fight
-# get fight
-# return
