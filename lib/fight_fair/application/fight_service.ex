@@ -20,11 +20,10 @@ defmodule FightFair.Application.FightService do
     end
   end
 
-  def add_action(fight_id, action_name, user_id) do
-    with {:ok, fight} <- @fight_repo.get(fight_id),
-         {:ok, action} <- Action.new(action_name, user_id),
-         {:ok, fight} <- @fight_repo.add_action(fight, action, user_id) do
-      {:ok, fight}
+  def add_action(action_name, fight_id, user_id) do
+    with {:ok, action} <- Action.new(action_name, user_id, fight_id),
+         {:ok, action} <- @action_repo.insert(action) do
+      {:ok, action}
     end
   end
 end

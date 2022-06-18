@@ -21,15 +21,4 @@ defmodule FightFair.Adapter.FightRepoTest do
       assert {:error, %Ecto.Changeset{}} = FightRepo.insert(fight)
     end
   end
-
-  # describe "get" do
-  #   test "a fight" do
-  #     {:ok, fight} = FightRepo.insert(%FightDomain{subject: "a"})
-
-  #     assert {:ok, fetched_fight} = FightRepo.get(fight.id)
-
-  #     assert fetched_fight.id == fight.id
-  #     assert fetched_fight.subject == fight.subject
-  #   end
-  # end
 end

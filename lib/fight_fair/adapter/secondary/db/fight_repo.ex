@@ -2,19 +2,15 @@ defmodule FightFair.Adapter.FightRepo do
   @behaviour FightFair.FightRepoBehaviour
 
   alias FightFair.Repo
-  alias FightFair.Action, as: ActionDomain
   alias FightFair.Fight, as: FightDomain
-  alias FightFair.Db.{Action, User, Fight}
+  alias FightFair.Db.{User, Fight}
 
   @impl true
   def get_all(user_id) do
-    fights =
-      User
-      |> Repo.get!(user_id)
-      |> Repo.preload(:fights)
-      |> Map.get(:fights)
-
-    {:ok, fights}
+    User
+    |> Repo.get!(user_id)
+    |> Repo.preload(:fights)
+    |> Map.get(:fights)
   end
 
   @impl true
@@ -32,11 +28,6 @@ defmodule FightFair.Adapter.FightRepo do
       {:ok, Fight.to_domain(fight_schema)}
     end
   end
-
-  # @impl true
-  # def add_action(%FightDomain{} = fight, %ActionDomain{} = action, user_id) do
-  #   # how to update a fight
-  # end
 
   def do_insert(changeset) do
     case Repo.insert(changeset) do

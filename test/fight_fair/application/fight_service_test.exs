@@ -30,22 +30,27 @@ defmodule FightFair.Application.FightServiceTest do
   end
 
   describe "get_all" do
-    test "get_all" do
+    test "with existing user and fights returns all fights" do
       {:ok, user} = UserRepo.insert(@user)
       {:ok, partner} = UserRepo.insert(@partner)
       {:ok, %FightDomain{id: first_fight_id}} = FightService.start_fight(@subject, user.id, partner.id)
       {:ok, %FightDomain{id: second_fight_id}} = FightService.start_fight(@subject, user.id, partner.id)
 
-      assert {:ok, fights} = FightService.get_all(user.id)
+      assert fights = FightService.get_all(user.id)
       assert Enum.count(fights) == 2
     end
-  end
 
-  # describe "get" do
-  #   test "get" do
-  #     {:ok, user} = UserRepo.insert(@user)
-  #     {:ok, %FightDomain{id: fight_id}} = FightService.start_fight(@subject, user.id)
-  #     assert {:ok, %FightDomain{}} = FightService.get(fight_id)
-  #   end
-  # end
+    test "with existing user and no fights returns empty list" do
+      {:ok, user} = UserRepo.insert(@user)
+
+      assert fights = FightService.get_all(user.id)
+      assert Enum.count(fights) == 0
+    end
+
+    # todo:  What should i do in this case?
+    # test "with invalid user returns empty list" do
+    #   assert fights = FightService.get_all(10000)
+    #   assert Enum.count(fights) == 0
+    # end
+  end
 end
