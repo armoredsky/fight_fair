@@ -23,40 +23,13 @@ defmodule FightFair.Fight do
 
   def new(subject, %User{} = created_by, %User{} = partner)
       when is_binary(subject) do
-    fight = %__MODULE__{
-      subject: subject,
-      users: [created_by, partner],
-      start_date: DateTime.utc_now()
-    }
-
-    add_action(fight, :start_fight, created_by)
+    {:ok,
+     %__MODULE__{
+       subject: subject,
+       users: [created_by, partner],
+       start_date: DateTime.utc_now()
+     }}
   end
 
-  def new(subject, %User{} = created_by)
-      when is_binary(subject) do
-    fight = %__MODULE__{
-      subject: subject,
-      users: [created_by],
-      start_date: DateTime.utc_now()
-    }
-
-    add_action(fight, :start_fight, created_by)
-  end
-
-  def new(_, _), do: {:error, :invalid_arguments}
-
-  def add_action(fight, action_name, created_by) do
-    if Enum.member?(fight.users, created_by) do
-      case Action.new(action_name, created_by) do
-        {:ok, action} ->
-          fight = %__MODULE__{fight | actions: [action | fight.actions]}
-          {:ok, fight}
-
-        {:error, error} ->
-          {:error, error}
-      end
-    else
-      {:error, :uninvited_user_action}
-    end
-  end
+  def new(_, _, _), do: {:error, :invalid_arguments}
 end

@@ -21,29 +21,25 @@ defmodule FightFair.Action do
           created_at: DateTime.t()
         }
 
-  # this might be weird way of doing it
-  def new(action_name, created_by_id, fight_id)
-      when action_name in @action_names and is_integer(created_by_id) and is_integer(fight_id) do
-    {:ok,
-     %__MODULE__{
-       name: action_name,
-       created_by: %User{id: created_by_id},
-       fight: %Fight{id: fight_id},
-       created_at: DateTime.utc_now()
-     }}
-  end
+  def new(action_name, u_id, f_id) when is_binary(action_name),
+    do: new(String.to_atom(action_name), u_id, f_id)
 
-  def new(action_name, %User{} = created_by) when action_name in @action_names do
+  def new(action_name, created_by_id, fight) when is_integer(created_by_id),
+    do: new(action_name, %User{id: created_by_id}, fight)
+
+  def new(action_name, created_by, fight_id) when is_integer(fight_id),
+    do: new(action_name, created_by, %Fight{id: fight_id})
+
+  def new(action_name, _, _) when action_name not in @action_names,
+    do: {:error, :invalid_action_name}
+
+  def new(action_name, created_by, fight) do
     {:ok,
      %__MODULE__{
        name: action_name,
        created_by: created_by,
+       fight: fight,
        created_at: DateTime.utc_now()
      }}
   end
-
-  def new(action_name, _) when action_name not in @action_names,
-    do: {:error, :unknown_action_name}
-
-  def new(_, _), do: {:error, :invalid_arguments}
 end

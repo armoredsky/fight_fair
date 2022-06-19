@@ -18,7 +18,7 @@ defmodule FightFair.Adapter.ActionRepoTest do
       assert {:ok, fight} = FightRepo.insert(fight)
 
       name = :start_fight
-      {:ok, action} = ActionDomain.new(name, user.id, fight.id)
+      {:ok, action} = ActionDomain.new(name, user, fight)
 
       assert {:ok,
               %ActionDomain{

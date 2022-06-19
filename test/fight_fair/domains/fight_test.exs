@@ -4,7 +4,8 @@ defmodule FightFair.FightTest do
 
   setup_all do
     {:ok, user} = User.new("name", "email")
-    [user: user]
+    {:ok, partner} = User.new("partner", "email")
+    [user: user, partner: partner]
   end
 
   describe "new/2" do
@@ -14,43 +15,20 @@ defmodule FightFair.FightTest do
       assert {:ok,
               %{
                 subject: ^subject,
-                users: users
-                # start_date: datetime, # assert this
-                # actions: actions #assert this
-              }} =
-               Fight.new(subject, state.user)
+                users: users,
+                start_date: start_date,
+                end_date: end_date,
+                actions: []
+              }} = Fight.new(subject, state.user, state.partner)
 
-      assert users == [state.user]
+      assert users == [state.user, state.partner]
+      refute start_date == nil
+      assert end_date == nil
     end
 
     test "invalid new Fight" do
-      assert {:error, :invalid_arguments} = Fight.new(111, 1)
-      assert {:error, :invalid_arguments} = Fight.new("subject", "user_id")
+      assert {:error, :invalid_arguments} = Fight.new(111, 1, 1)
+      assert {:error, :invalid_arguments} = Fight.new("subject", "user_id", "partner_id")
     end
   end
-
-  # describe "add_action/3" do
-  #   test "successfully add an action" do
-  #     subject = "Laundry never done on time"
-  #     user_id = 10
-  #     {:ok, fight} = Fight.new(subject, user_id)
-
-  #     assert {:ok,
-  #             %{
-  #               subject: ^subject,
-  #               actions: actions
-  #             }} = Fight.add_action(fight, :timeout, user_id)
-
-  #     assert Enum.count(actions) == 2
-  #   end
-
-  #   test "fail to add an action" do
-  #     subject = "Laundry never done on time"
-  #     user_id = 10
-  #     {:ok, fight} = Fight.new(subject, user_id)
-
-  #     assert {:error, :unknown_action_name} == Fight.add_action(fight, :dude, user_id)
-  #     assert {:error, :uninvited_user_action} == Fight.add_action(fight, :out_of_bounds, 10000)
-  #   end
-  # end
 end
