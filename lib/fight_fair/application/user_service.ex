@@ -1,4 +1,6 @@
 defmodule FightFair.Application.UserService do
+  alias FightFair.User, as: UserDomain
+
   @user_repo Application.compile_env(:fight_fair, :user_repo)
 
   # not something i reallly want, but you know
@@ -8,9 +10,13 @@ defmodule FightFair.Application.UserService do
   end
 
   def get(user_id) do
-    {:ok, user} = @user_repo.get(user_id)
-    user
+    @user_repo.get(user_id)
   end
 
-  # get partners/ maybe make that part of the user in the first place?
+  def create(name, email) do
+    with {:ok, user} <- UserDomain.new(name, email),
+         {:ok, user} <- @user_repo.insert(user) do
+      {:ok, user}
+    end
+  end
 end

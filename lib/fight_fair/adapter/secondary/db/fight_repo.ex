@@ -16,15 +16,22 @@ defmodule FightFair.Adapter.FightRepo do
   @impl true
   def get(fight_id) do
     case Repo.get(Fight, fight_id) do
-      %Fight{} = schema -> {:ok, Fight.to_domain(schema)}
-      _ -> {:error, :not_found}
+      %Fight{} = schema ->
+        schema =
+          Repo.preload(schema, :users)
+          |> Repo.preload(:actions)
+
+        {:ok, Fight.to_domain(schema)}
+
+      _ ->
+        {:error, :not_found}
     end
   end
 
   @impl true
   def insert(%FightDomain{} = fight) do
     with {:ok, fight_schema} <- Fight.insert_changeset(fight) |> do_insert,
-         fight_schema <- Repo.preload(fight_schema, :users) do
+         fight_schema <- Repo.preload(fight_schema, :users) |> Repo.preload(:actions) do
       {:ok, Fight.to_domain(fight_schema)}
     end
   end

@@ -15,8 +15,12 @@ defmodule FightFair.Adapter.UserRepo do
   @impl true
   def get(user_id) do
     case Repo.get(UserSchema, user_id) do
-      %UserSchema{} = user_schema -> {:ok, UserSchema.to_domain(user_schema)}
-      _ -> {:error, :not_found}
+      %UserSchema{} = user_schema ->
+        Repo.preload(user_schema, :fights)
+        {:ok, UserSchema.to_domain(user_schema)}
+
+      _ ->
+        {:error, :not_found}
     end
   end
 
