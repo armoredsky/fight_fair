@@ -26,6 +26,7 @@ defmodule FightFair.Application.FightServiceTest do
 
       assert user.id == a_user.id
       assert partner.id == a_partner.id
+      refute id == nil
     end
   end
 
@@ -33,8 +34,10 @@ defmodule FightFair.Application.FightServiceTest do
     test "with existing user and fights returns all fights" do
       {:ok, user} = UserRepo.insert(@user)
       {:ok, partner} = UserRepo.insert(@partner)
-      {:ok, %FightDomain{id: first_fight_id}} = FightService.start_fight(@subject, user.id, partner.id)
-      {:ok, %FightDomain{id: second_fight_id}} = FightService.start_fight(@subject, user.id, partner.id)
+
+      {:ok, %FightDomain{}} = FightService.start_fight(@subject, user.id, partner.id)
+
+      {:ok, %FightDomain{}} = FightService.start_fight(@subject, user.id, partner.id)
 
       assert fights = FightService.get_all(user.id)
       assert Enum.count(fights) == 2
@@ -46,11 +49,18 @@ defmodule FightFair.Application.FightServiceTest do
       assert fights = FightService.get_all(user.id)
       assert Enum.count(fights) == 0
     end
+  end
 
-    # todo:  What should i do in this case?
-    # test "with invalid user returns empty list" do
-    #   assert fights = FightService.get_all(10000)
-    #   assert Enum.count(fights) == 0
-    # end
+  describe "add_action/3" do
+    test "accepts an action_name, fight_id, and user_id and returns a fight with new action" do
+      assert {:ok, user} = UserRepo.insert(@user)
+      assert {:ok, partner} = UserRepo.insert(@partner)
+
+      assert {:ok, %FightDomain{id: id}} = FightService.start_fight(@subject, user.id, partner.id)
+
+      assert {:ok, %FightDomain{actions: actions}} = FightService.add_action(:foul, id, user.id)
+
+      assert Enum.count(actions) == 1
+    end
   end
 end

@@ -8,18 +8,20 @@ defmodule FightFair.Application.UserServiceTest do
 
   @user %UserDomain{name: "michael", email: "m@gmail.com"}
   @partner %UserDomain{name: "lara", email: "l@gmail.com"}
-  @subject "ain't gona take it"
 
   describe "get/1" do
     test "returns user by id" do
-     {:ok, user} = UserRepo.insert(@user)
+      {:ok, user} = UserRepo.insert(@user)
 
-     assert {:ok, %UserDomain{id: id, name: name, email: email}} = UserService.get(user.id)
+      assert {:ok, %UserDomain{id: id, name: name, email: email}} = UserService.get(user.id)
+      refute id == nil
+      assert @user.name == name
+      assert @user.email == email
     end
 
     test "returns :error with invalid id" do
       assert {:error, :not_found} = UserService.get(1)
-     end
+    end
   end
 
   describe "get_all/0" do
@@ -34,14 +36,17 @@ defmodule FightFair.Application.UserServiceTest do
       {:ok, partner} = UserRepo.insert(@partner)
       assert [^user, ^partner] = UserService.get_all()
     end
-
   end
 
   describe "create/2" do
     test "accepts email and name" do
       name = "mds"
       email = "email@gmail.com"
-      assert {:ok, %UserDomain{ id: id, name: ^name, email: ^email  }} = UserService.create(name, email)
+
+      assert {:ok, %UserDomain{id: id, name: ^name, email: ^email}} =
+               UserService.create(name, email)
+
+      refute id == nil
     end
   end
 end

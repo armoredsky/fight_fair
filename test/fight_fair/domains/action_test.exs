@@ -1,6 +1,6 @@
 defmodule FightFair.ActionTest do
   use ExUnit.Case, async: true
-  alias FightFair.{Action,Fight, User}
+  alias FightFair.{Action}
 
   @created_by_id 1
   @fight_id 2
@@ -13,8 +13,8 @@ defmodule FightFair.ActionTest do
               %Action{
                 name: ^name,
                 created_at: datetime
-              }}
-              = Action.new(name, @created_by_id, @fight_id)
+              }} =
+               Action.new(name, @created_by_id, @fight_id)
 
       refute datetime == nil
     end
@@ -27,8 +27,8 @@ defmodule FightFair.ActionTest do
               %Action{
                 name: ^atom_name,
                 created_at: datetime
-              }}
-              = Action.new(name, @created_by_id, @fight_id)
+              }} =
+               Action.new(name, @created_by_id, @fight_id)
 
       refute datetime == nil
     end

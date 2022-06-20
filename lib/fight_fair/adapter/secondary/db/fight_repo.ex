@@ -9,7 +9,7 @@ defmodule FightFair.Adapter.FightRepo do
   def get_all(user_id) do
     User
     |> Repo.get!(user_id)
-    |> Repo.preload(:fights)
+    |> Repo.preload(fights: [:actions])
     |> Map.get(:fights)
   end
 
