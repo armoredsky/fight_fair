@@ -1,11 +1,12 @@
 defmodule FightFair.User do
-  defstruct(id: nil, name: nil, email: nil)
+  defstruct(id: nil, name: nil, email: nil, confirmed_at: nil)
 
   @type id :: integer()
   @type t :: %__MODULE__{
           id: __MODULE__.id() | nil,
           name: String.t(),
           email: String.t(),
+          confirmed_at: DateTime.t()
         }
 
   def new(name, email) when is_binary(name) and is_binary(email) do
