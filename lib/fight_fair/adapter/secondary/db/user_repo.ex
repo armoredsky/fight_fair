@@ -25,6 +25,18 @@ defmodule FightFair.Adapter.UserRepo do
   end
 
   @impl true
+  def get_by_email(email) do
+    case Repo.get_by(UserSchema, email: email) do
+      %UserSchema{} = user_schema ->
+        Repo.preload(user_schema, :fights)
+        {:ok, UserSchema.to_domain(user_schema)}
+
+      _ ->
+        {:error, :not_found}
+    end
+  end
+
+  @impl true
   def insert(%UserDomain{} = user) do
     with {:ok, schema} <- UserSchema.insert_changeset(user) |> Repo.insert() do
       {:ok, UserSchema.to_domain(schema)}

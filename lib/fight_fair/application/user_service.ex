@@ -13,6 +13,17 @@ defmodule FightFair.Application.UserService do
     @user_repo.get(user_id)
   end
 
+  def get_by_email(email) do
+    @user_repo.get_by_email(email)
+  end
+
+  def get_or_create(%{email: email} = user) do
+    case get_by_email(email) do
+      {:ok, user} -> {:ok, user}
+      {:error, _} -> create(user.name, user.email)
+    end
+  end
+
   def create(name, email) do
     with {:ok, user} <- UserDomain.new(name, email),
          {:ok, user} <- @user_repo.insert(user) do

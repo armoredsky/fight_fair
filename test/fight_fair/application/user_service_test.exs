@@ -24,6 +24,21 @@ defmodule FightFair.Application.UserServiceTest do
     end
   end
 
+  describe "get_by_email/1" do
+    test "returns user by email" do
+      {:ok, user} = UserRepo.insert(@user)
+
+      assert {:ok, %UserDomain{id: id, name: name, email: email}} = UserService.get_by_email(user.email)
+      refute id == nil
+      assert @user.name == name
+      assert @user.email == email
+    end
+
+    test "returns :error with invalid id" do
+      assert {:error, :not_found} = UserService.get(1)
+    end
+  end
+
   describe "get_all/0" do
     test "with no exisiting users gives empty list" do
       assert [] == UserService.get_all()
